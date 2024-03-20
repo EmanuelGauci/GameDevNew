@@ -1,0 +1,3 @@
+||To move use W(forward), A(left), S(backwards), D(right), Space Bar(Jump). 
+||Interact with environment:|| Right click to unlock camera, Left click on interactables to activate, Right click again to relock camera.||
+||Some jumps require you to weigh the correct route, the metal beams on your right look unreliable while the roofing behind you is densely stacked up ||
