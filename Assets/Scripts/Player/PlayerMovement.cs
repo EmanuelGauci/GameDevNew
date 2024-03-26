@@ -63,15 +63,16 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetMouseButtonDown(1)) {
             RMBToggle = !RMBToggle; // Toggle the state
         }
-        if (RMBToggle && !uihandler.isPaused) {
+        if (RMBToggle || uihandler.isPaused) {
+            SelectWithMouse();
+
+        } else {
+            
             TurnWithMouse();
             float mouseX = Input.GetAxis("Mouse X");
             Vector3 rotation = new Vector3(0f, mouseX * turnSpeed, 0f);
             Quaternion deltaRotation = Quaternion.Euler(rotation * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
-
-        } else {
-            SelectWithMouse();
         }
     }
     public void TurnWithMouse() {
