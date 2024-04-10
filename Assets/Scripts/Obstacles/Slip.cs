@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slip : MonoBehaviour {
     public float originalSlipSpeed = 5f;
-    private GameObject player;
+    [SerializeField]private GameObject player;
     private float currentSlipSpeed;
 
     private void Start() {
