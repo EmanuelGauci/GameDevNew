@@ -8,6 +8,9 @@ public class EnablePicking : MonoBehaviour
     [SerializeField]private GameObject lockpicking;
     public bool isPicking = false;
     [SerializeField]private PinBehaviour pinBehaviour;
+    [SerializeField]private RendererFeatureToggle rendererFeatureToggle;
+    [SerializeField] private PlayerMovement playerMovement;
+    
 
     void Update() {//if the player clicks on the object the lockpicking box is enabled
         if (Input.GetMouseButtonDown(0)) {//check for left mouse button click
@@ -18,12 +21,22 @@ public class EnablePicking : MonoBehaviour
                 if (hit.collider != null && hit.collider.gameObject == gameObject) {//check if the collider belongs to a 3D object
                     lockpicking.SetActive(true);//log a message to the console
                     isPicking = true;
+                    rendererFeatureToggle.activateFeature = false;
+                    playerMovement.isParalyzed = true;
                 }
             }
+            
         }
         if(pinBehaviour.finished == true) {
              this.gameObject.SetActive(false);
+            playerMovement.isParalyzed = false;
+        }
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            isPicking = false;
+            lockpicking.SetActive(false);
+            playerMovement.isParalyzed = false;
         }
         
     }
+
 }

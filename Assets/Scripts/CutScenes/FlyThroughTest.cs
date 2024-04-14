@@ -40,7 +40,7 @@ public class FlyThroughTest : MonoBehaviour {
 
         dollyCart.m_Speed = 10f;
         virtualCamera.Priority = 100;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(6);
         virtualCamera.Priority = 0;
 
         isCutsceneActive = false;
