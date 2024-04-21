@@ -3,40 +3,65 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnablePicking : MonoBehaviour
-{
-    [SerializeField]private GameObject lockpicking;
+public class EnablePicking : MonoBehaviour {
+    [SerializeField] private GameObject lockpicking;
     public bool isPicking = false;
-    [SerializeField]private PinBehaviour pinBehaviour;
-    [SerializeField]private RendererFeatureToggle rendererFeatureToggle;
+    [SerializeField] private PinBehaviour pinBehaviour;
+    [SerializeField] private RendererFeatureToggle rendererFeatureToggle;
     [SerializeField] private PlayerMovement playerMovement;
-    
+    private RigidbodyConstraints originalConstraints; // Store original Rigidbody constraints
 
-    void Update() {//if the player clicks on the object the lockpicking box is enabled
-        if (Input.GetMouseButtonDown(0)) {//check for left mouse button click
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//cast a ray from the mouse position into the scene
-            RaycastHit hit;
+    [SerializeField] private float TrigDistance = 2f;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private GameObject EToInteractSprite;
+    private bool isInRange = false;
 
-            if (Physics.Raycast(ray, out hit)) {//check if the ray hits a collider
-                if (hit.collider != null && hit.collider.gameObject == gameObject) {//check if the collider belongs to a 3D object
-                    lockpicking.SetActive(true);//log a message to the console
-                    isPicking = true;
-                    rendererFeatureToggle.activateFeature = false;
-                    playerMovement.isParalyzed = true;
-                }
+    void Start() {
+        if (playerMovement != null && playerMovement.GetComponent<Rigidbody>() != null) {//store the original rigidbody constarints
+            originalConstraints = playerMovement.GetComponent<Rigidbody>().constraints;
+        }
+    }
+
+    void Update() {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, TrigDistance, playerLayer);
+        if (colliders.Length > 0 && !isInRange) {
+            isInRange = true;
+            SetEToInteractSpriteVisibility(true);
+        } else if (colliders.Length == 0 && isInRange) {
+            isInRange = false;
+            SetEToInteractSpriteVisibility(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && isInRange) {
+            lockpicking.SetActive(true);
+            isPicking = true;
+            rendererFeatureToggle.activateFeature = false;
+            playerMovement.isParalyzed = true;
+            if (playerMovement.GetComponent<Rigidbody>() != null) {//freeze the player's rigidbody
+                playerMovement.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
-            
         }
-        if(pinBehaviour.finished == true) {
-             this.gameObject.SetActive(false);
+        if (pinBehaviour.finished == true) {
+            this.gameObject.SetActive(false);
             playerMovement.isParalyzed = false;
+            if (playerMovement.GetComponent<Rigidbody>() != null) {//restore the player's rigidbody
+                playerMovement.GetComponent<Rigidbody>().constraints = originalConstraints;
+            }
         }
-        if(Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             isPicking = false;
             lockpicking.SetActive(false);
             playerMovement.isParalyzed = false;
+
+            // Restore original Rigidbody constraints
+            if (playerMovement.GetComponent<Rigidbody>() != null) {
+                playerMovement.GetComponent<Rigidbody>().constraints = originalConstraints;
+            }
         }
-        
+
     }
 
+    void SetEToInteractSpriteVisibility(bool isVisible) {
+        EToInteractSprite.SetActive(isVisible);
+    }
 }
