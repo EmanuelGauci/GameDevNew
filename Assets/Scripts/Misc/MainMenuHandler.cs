@@ -66,6 +66,7 @@ public class MainMenuHandler : MonoBehaviour {
     IEnumerator LoadSceneAsync(string sceneName) {//coroutine to load the scene asynchronously
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);//start loading the scene asynchronously
         while (!operation.isDone) {//wait until the operation is done
+            ShowLoadingScreen();
             yield return null;
         }
     }

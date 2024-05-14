@@ -79,8 +79,58 @@ Transform:
   - {fileID: 4370121146494663691}
   - {fileID: 8785321931859933115}
   - {fileID: 2456663279675434655}
+  - {fileID: 8988545159476195848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4777612261442711617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8988545159476195848}
+  - component: {fileID: 6282026631719656108}
+  m_Layer: 0
+  m_Name: Cutscene1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8988545159476195848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777612261442711617}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 497602194114923123}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6282026631719656108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777612261442711617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32495f90a2c63b044815e30b1d09385e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayerGameObject: {fileID: 0}
+  videoPlayer: {fileID: 0}
+  rawImage: {fileID: 0}
+  videoClip: {fileID: 0}
+  renderTexture: {fileID: 0}
 --- !u!1 &5706264570388777069
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,8 +180,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   Player: {fileID: 0}
   PlayerMovement: {fileID: 0}
+  SpawnAudioSource: {fileID: 0}
+  deathSound: {fileID: 0}
+  RespawnCutscene: {fileID: 0}
 --- !u!1 &7163399729812187552
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,13 +298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3ab9fc9be716a4caf036334d162417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlyThroughPoints:
-  - {fileID: 0}
-  dollyCarts:
-  - {fileID: 0}
-  virtualCameras:
-  - {fileID: 0}
-  - {fileID: 0}
+  FlyThroughPoint: {fileID: 0}
+  dollyCart: {fileID: 0}
+  virtualCamera: {fileID: 0}
   Player: {fileID: 0}
   playerMovement: {fileID: 0}
   playerRigidbody: {fileID: 0}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimCTRL : MonoBehaviour {
     [SerializeField] private Animator anim;
     private bool isPlayingAnimation = false;
+    [SerializeField]private PlayerMovement playerMovement;
 
     private void Start() {
         anim = GetComponent<Animator>();
@@ -16,34 +17,27 @@ public class PlayerAnimCTRL : MonoBehaviour {
 
     private void UpdateAnimations() {
         if (!isPlayingAnimation) {
-            // Set the isWalking parameter when either 'W' or 'S' key is pressed
-            bool isWalkingForward = Input.GetKey(KeyCode.W);
-            bool isWalkingBackward = Input.GetKey(KeyCode.S);
-            anim.SetBool("isWalking", isWalkingForward || isWalkingBackward);
+            bool isJumping = Input.GetKey(KeyCode.Space);
+            anim.SetBool("isJumping", isJumping);
+            bool isWalking = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A);
+            anim.SetBool("isWalking", isWalking);
+            bool isIdle = !(isWalking || isJumping);
+            anim.SetBool("isIdle", isIdle);
 
-            // Set the isWalkingLeft and isWalkingRight parameters based on 'A' and 'D' keys
-            bool isWalkingLeft = Input.GetKey(KeyCode.A);
-            bool isWalkingRight = Input.GetKey(KeyCode.D);
-
-            // Check for left shift key press and 'A' or 'D' keys to trigger dash animations
-            bool isDashingLeft = Input.GetKey(KeyCode.LeftShift) && isWalkingLeft;
-            bool isDashingRight = Input.GetKey(KeyCode.LeftShift) && isWalkingRight;
-
-            // Set the isDashingLeft and isDashingRight parameters
-            anim.SetBool("isDashingLeft", isDashingLeft);
-            anim.SetBool("isDashingRight", isDashingRight);
-
-            // Set the isWalkingLeft and isWalkingRight parameters based on 'A' and 'D' keys
-            anim.SetBool("isWalkingLeft", isWalkingLeft && !isDashingLeft && !isWalkingRight);
-            anim.SetBool("isWalkingRight", isWalkingRight && !isDashingRight && !isWalkingLeft);
-
-            // Set the isIdle parameter based on whether any movement key is pressed
-            bool isIdle = !(isWalkingForward || isWalkingLeft || isWalkingBackward || isWalkingRight);
-            anim.SetBool("isIdle", isIdle && !isDashingLeft && !isDashingRight);
+            bool isClimbing = playerMovement.isOnLadder && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A));
+            anim.SetBool("isClimbing", isClimbing);
+            
         }
     }
 
-    public void SetAnimationPlaying(bool isPlaying) {//call this method from other parts of your code when an animation starts playing
+    public void SetAnimationPlaying(bool isPlaying) {
         isPlayingAnimation = isPlaying;
+        if (!isPlaying) {
+            // Reset animation states when animation stops playing
+            anim.SetBool("isClimbing", false);
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isIdle", true);
+        }
     }
 }

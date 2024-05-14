@@ -1,45 +1,45 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SteamTrap : MonoBehaviour {
-    [SerializeField] public GameObject prefabToSpawn;//reference to the prefab object to spawn
-    [SerializeField] public float spawnInterval = 3f; // Adjust the interval as needed
-    private GameObject spawnedPrefab;//reference to the spawned prefab
-    [SerializeField] private GameManager gameManager;//reference to the game manager
-    [SerializeField] private GameObject player;//reference to the player object
-    [SerializeField] private float damageDelay = 1f;//delay between damage inflicted on the player
-    [SerializeField] private AudioSource steamAudioSource;//audio source for steam sound
-    [SerializeField] private AudioClip steamAudioClip;//audio clip for steam sound
-    [SerializeField] private float rotationAngleMultiplier = 90f; // Multiplier to convert value to rotation angle
-
-    [SerializeField] private float rotationValue = 0f; // Value to control the rotation angle from the inspector
+    [SerializeField] private GameObject prefabToSpawn;
+    [SerializeField] private float spawnInterval = 3f;
+    private GameObject spawnedPrefab;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float damageDelay = 1f;
+    [SerializeField] private AudioSource steamAudioSource;
+    [SerializeField] private AudioClip steamAudioClip;
+    [SerializeField] private float rotationAngleMultiplier = 90f;
+    [SerializeField] private float rotationValue = 0f;
+    [SerializeField] private float scaleDuration = 0.5f;
 
     private void Start() {
-        SpawnPrefab();//initial spawn of the prefab
+        SpawnPrefab();
         InvokeRepeating("TogglePrefabVisibility", spawnInterval, spawnInterval);
 
-        if (steamAudioSource && steamAudioClip) {//play steam audio if audiosource and audioclip are assigned
+        if (steamAudioSource && steamAudioClip) {
             steamAudioSource.clip = steamAudioClip;
         }
     }
 
     private void SpawnPrefab() {
-        Quaternion rotation = Quaternion.Euler(0, rotationValue * rotationAngleMultiplier, 0); // Calculate rotation based on rotationValue
-        spawnedPrefab = Instantiate(prefabToSpawn, transform.position, rotation); // Instantiate the prefab with rotation
-        spawnedPrefab.SetActive(false); // Hide the prefab initially
+        Quaternion rotation = Quaternion.Euler(0, rotationValue * rotationAngleMultiplier, 0);
+        spawnedPrefab = Instantiate(prefabToSpawn, transform.position, rotation);
+        spawnedPrefab.transform.localScale = Vector3.zero; // Set initial scale to zero
     }
 
     private void TogglePrefabVisibility() {
         if (spawnedPrefab != null) {
-            //toggle visibility of the prefabs
-            bool isActive = spawnedPrefab.activeSelf;
-            spawnedPrefab.SetActive(!isActive);
-
-            if (steamAudioSource && steamAudioClip) {//play or stop audio based on prefab visibility
-                if (!isActive) {
+            if (!spawnedPrefab.activeSelf) {
+                StartCoroutine(ScalePrefabIn());
+                spawnedPrefab.SetActive(true);
+                if (steamAudioSource && steamAudioClip) {
                     steamAudioSource.Play();
-                } else {
+                }
+            } else {
+                StartCoroutine(ScalePrefabOutAndHide());
+                if (steamAudioSource && steamAudioClip) {
                     StartCoroutine(FadeOutAudio());
                 }
             }
@@ -47,32 +47,54 @@ public class SteamTrap : MonoBehaviour {
     }
 
     private IEnumerator FadeOutAudio() {
-        float initialVolume = steamAudioSource.volume;//fade out the audio gradually
+        float initialVolume = steamAudioSource.volume;
         while (steamAudioSource.volume > 0) {
             steamAudioSource.volume -= initialVolume * Time.deltaTime / damageDelay;
             yield return null;
         }
-        //stop the audio and reset volume for next play
         steamAudioSource.Stop();
         steamAudioSource.volume = initialVolume;
     }
 
+    private IEnumerator ScalePrefabIn() {
+        float t = 0f;
+        Vector3 initialScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
+        while (t < scaleDuration) {
+            t += Time.deltaTime;
+            spawnedPrefab.transform.localScale = Vector3.Lerp(initialScale, targetScale, t / scaleDuration);
+            yield return null;
+        }
+        spawnedPrefab.transform.localScale = targetScale;
+    }
+
+    private IEnumerator ScalePrefabOutAndHide() {
+        float t = 0f;
+        Vector3 initialScale = spawnedPrefab.transform.localScale;
+        Vector3 targetScale = Vector3.zero;
+        while (t < scaleDuration) {
+            t += Time.deltaTime;
+            spawnedPrefab.transform.localScale = Vector3.Lerp(initialScale, targetScale, t / scaleDuration);
+            yield return null;
+        }
+        spawnedPrefab.transform.localScale = targetScale;
+        spawnedPrefab.SetActive(false); // Hide the prefab after scaling out
+    }
 
     private bool damageCooldown = false;
 
     private void FixedUpdate() {
-        //check for collision between player and spawnedPrefab
         Collider playerCollider = player.GetComponent<Collider>();
         Collider enemyCollider = spawnedPrefab.GetComponent<Collider>();
         if (playerCollider.bounds.Intersects(enemyCollider.bounds) && !damageCooldown) {
-            StartCoroutine(DealDamageWithDelay());//initiate damage dealing with a delay
+            StartCoroutine(DealDamageWithDelay());
         }
     }
 
     private IEnumerator DealDamageWithDelay() {
-        damageCooldown = true;//initiate damage cooldown
-        gameManager.playerHealth -= 1;//inflict damage on the player
-        yield return new WaitForSeconds(damageDelay);//wait for the damage delay before allowing further damage
-        damageCooldown = false;//reset damage cooldown
+        damageCooldown = true;
+        gameManager.playerHealth -= 1;
+        yield return new WaitForSeconds(damageDelay);
+        damageCooldown = false;
     }
 }
