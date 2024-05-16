@@ -6,6 +6,6 @@ using UnityEngine;
 public class ExitLevel : MonoBehaviour
 {
     public void RunPayload() {
-        SceneManager.LoadScene("ToBeContinued");
+        SceneManager.LoadScene("BetweenLevels");
     }
 }

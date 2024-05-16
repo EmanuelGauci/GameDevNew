@@ -7,13 +7,16 @@ public class Respawn : MonoBehaviour {
     public GameManager GameManager; // Reference to the game manager
     public GameObject[] SpawnPoints; // Array of spawn points
     public GameObject Player; // Reference to the player object
-    public PlayerMovement PlayerMovement; // Reference to the player movement script
+    public PlayerMovement playerMovement; // Reference to the player movement script
+    public Rigidbody playerRigidbody;
     private int lastSpawnPointIndex = 0; // Index of the last spawn point used
     private bool isTouchingSpawn = false; // Flag indicating the player is touching a spawn point
     [SerializeField] private AudioSource SpawnAudioSource; // Audio source for spawning
     [SerializeField] private AudioClip deathSound; // Sound played upon player death
     private bool hasPlayerHitSpawn = false; // Flag indicating if the player has hit a spawn point
     [SerializeField] private GameObject RespawnCutscene; // Reference to the respawn cutscene object
+    [SerializeField] private float paralysisDuration = 3f; // Duration of player paralysis after respawn cutscene
+    private RigidbodyConstraints originalConstraints;
 
     void Update() {
         UpdateIsTouchingSpawn(); // Check if the player is touching a spawn point
@@ -22,11 +25,10 @@ public class Respawn : MonoBehaviour {
             Spawn();
         }
     }
-
+    
     private void Spawn() {
         PlayDeathSound(); // Play death sound
         MovePlayerToLastSpawnPoint(); // Move player to the last spawn point
-       
         LoadingScreen(); // Display loading screen
     }
 
@@ -46,6 +48,7 @@ public class Respawn : MonoBehaviour {
 
                     if (videoController != null) {
                         videoController.StartCutscene(); // Start respawn cutscene
+                        StartCoroutine(ParalyzePlayer()); // Paralyze the player
                     } else {
                         Debug.LogError("VideoPlayerController script not found on Cutscene1Controller GameObject.");
                     }
@@ -55,6 +58,15 @@ public class Respawn : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private IEnumerator ParalyzePlayer() {
+        playerRigidbody.constraints = RigidbodyConstraints.FreezePosition;
+        playerMovement.isParalyzed = true;
+        yield return new WaitForSeconds(paralysisDuration); // Wait for paralysis duration
+        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePosition;
+        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        playerMovement.isParalyzed = false;
     }
 
     private void MovePlayerToLastSpawnPoint() {

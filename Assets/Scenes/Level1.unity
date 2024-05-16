@@ -3151,6 +3151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 971833790}
+  playerMovement: {fileID: 157753070}
 --- !u!1 &299190591
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +3493,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 1
+  scaleDuration: 0.5
 --- !u!65 &305374912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3956,6 +3958,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &347241159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4636,6 +4639,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 2
+  scaleDuration: 0.5
 --- !u!1 &375159755 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5826993890106355483, guid: fce544655bcc06d4c84a13bed929d230, type: 3}
@@ -5963,6 +5967,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &447841994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8192,6 +8197,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 1
+  scaleDuration: 0.5
 --- !u!65 &588428205
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10692,6 +10698,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &767345409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14669,6 +14676,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 1
+  scaleDuration: 0.5
 --- !u!65 &1180885208
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15167,6 +15175,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &1204227227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17253,9 +17262,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 157753070}
     - target: {fileID: 6036185212666774669, guid: f34e408159bf28241902edfc15f75d06, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 157753070}
+    - target: {fileID: 6036185212666774669, guid: f34e408159bf28241902edfc15f75d06, type: 3}
       propertyPath: RespawnCutscene
       value: 
       objectReference: {fileID: 375159755}
+    - target: {fileID: 6036185212666774669, guid: f34e408159bf28241902edfc15f75d06, type: 3}
+      propertyPath: playerRigidbody
+      value: 
+      objectReference: {fileID: 1102700172}
+    - target: {fileID: 6036185212666774669, guid: f34e408159bf28241902edfc15f75d06, type: 3}
+      propertyPath: paralysisDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6036185212666774669, guid: f34e408159bf28241902edfc15f75d06, type: 3}
       propertyPath: SpawnPoints.Array.data[0]
       value: 
@@ -17443,6 +17464,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 1
+  scaleDuration: 0.5
 --- !u!65 &1403696526
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18031,6 +18053,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &1435091441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20509,6 +20532,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &1599273189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21837,6 +21861,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 2
+  scaleDuration: 0.5
 --- !u!1 &1668465467
 GameObject:
   m_ObjectHideFlags: 0
@@ -24580,6 +24605,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &1843965247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27343,6 +27369,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &1986711788
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28545,6 +28572,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 0
+  scaleDuration: 0.5
 --- !u!65 &2085210166
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29560,6 +29588,7 @@ MonoBehaviour:
   steamAudioClip: {fileID: 0}
   rotationAngleMultiplier: 90
   rotationValue: 1
+  scaleDuration: 0.5
 --- !u!65 &2132522551
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -44,7 +44,7 @@ public class MainMenuHandler : MonoBehaviour {
 
     public void StartGame() {
         //StartCutscene2();
-        StartCoroutine(LoadSceneAsync("NewLevelDesign"));//start loading the enxt scene asynchronously
+        StartCoroutine(LoadSceneAsync("Level1"));//start loading the enxt scene asynchronously
     }
 
     public void StartCutscene2() {
@@ -59,7 +59,7 @@ public class MainMenuHandler : MonoBehaviour {
     void Cutscene2Payload() {
         ShowLoadingScreen();//show the loading screen
         SkipCutsceneGameObject.SetActive(false);//deactivate the skip button gameobject
-        StartCoroutine(LoadSceneAsync("NewLevelDesign"));//start loading the enxt scene asynchronously
+        StartCoroutine(LoadSceneAsync("Level1"));//start loading the enxt scene asynchronously
         videoController.gameObject.SetActive(false); // Deactivate the Video Player component
     }
 

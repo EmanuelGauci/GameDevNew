@@ -108,12 +108,17 @@ public class PlayerMovement : MonoBehaviour {
         if (isOnLadder && !isGrounded) {
             float verticalInput = Input.GetAxis("Vertical");
             float horizontalInput = Input.GetAxis("Horizontal");
-            Vector3 climbVelocity = new Vector3(horizontalInput * -horizontalClimbSpeed, verticalInput * climbSpeed, rb.velocity.z);//preserve both horizontal and vertical movement with adjusted speeds
+
+            // Get the player's local right direction
+            Vector3 rightDirection = transform.right;
+
+            // Calculate the climb velocity using the player's local right direction
+            Vector3 climbVelocity = rightDirection * horizontalInput * -horizontalClimbSpeed + Vector3.up * verticalInput * climbSpeed;
 
             // Only update the vertical and horizontal components of the velocity
-            rb.velocity = new Vector3(climbVelocity.x, climbVelocity.y, 0f);
-
+            rb.velocity = new Vector3(rb.velocity.x, climbVelocity.y, rb.velocity.z);
         }
     }
-    
+
+
 }
