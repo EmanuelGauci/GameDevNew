@@ -17,7 +17,7 @@ public class PlayerAnimCTRL : MonoBehaviour {
 
     private void UpdateAnimations() {
         if (!isPlayingAnimation) {
-            bool isJumping = Input.GetKey(KeyCode.Space) && !playerMovement.isGrounded;
+            bool isJumping = !playerMovement.isGrounded && !playerMovement.isOnLadder;
             anim.SetBool("isJumping", isJumping);
 
             bool isWalking = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A)) && playerMovement.isGrounded;

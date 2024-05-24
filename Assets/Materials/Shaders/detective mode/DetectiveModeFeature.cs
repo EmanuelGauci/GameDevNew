@@ -43,8 +43,8 @@ public class DetectiveModeFeature : ScriptableRendererFeature {
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData) {
             colorBuffer = renderingData.cameraData.renderer.cameraColorTarget;
             RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
-            descriptor.height = 540;
-            descriptor.width = 960;
+            descriptor.height = 1920;
+            descriptor.width = 1080;
             cmd.GetTemporaryRT(detectiveBufferID, descriptor, FilterMode.Point);
             detectiveBuffer = new RenderTargetIdentifier(detectiveBufferID);
         }

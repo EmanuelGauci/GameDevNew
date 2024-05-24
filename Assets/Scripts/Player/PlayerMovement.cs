@@ -98,11 +98,14 @@ public class PlayerMovement : MonoBehaviour {
     void CheckLadder() {//raycast forwards to check for ladder
         RaycastHit hit;
         Vector3 raycastDirection = transform.forward;
-        if (Physics.Raycast(transform.position, raycastDirection, out hit, raycastDistance, ladderLayer)) {
-            isOnLadder = true;
-        } else {
-            isOnLadder = false;
+        if (!isGrounded) {
+            if (Physics.Raycast(transform.position, raycastDirection, out hit, raycastDistance, ladderLayer)) {
+                isOnLadder = true;
+            } else {
+                isOnLadder = false;
+            }
         }
+        
     }
     void Climbing() {
         if (isOnLadder && !isGrounded) {
