@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UIHandler : MonoBehaviour {
     [SerializeField] public GameObject Cig1, Cig2, Cig3;//references to cigarette game objects
-    [SerializeField] public GameObject Pick1, Pick2, Pick3, Pick4;//references to pick game objects
     public GameManager gameManager;//reference to the game manager
     public GameObject PausePanel;//referenmce to the pause panel game object
     public PlayerMovement playerMovement;//reference to theplayer movement script
@@ -15,7 +14,6 @@ public class UIHandler : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         UpdateCigaretteVisibility();//update the visibility of cigarette game objects
-        UpdatePickVisibility();//update the visibility of pick game objects
 
         if (Input.GetKeyDown(KeyCode.Escape)) {//check for the esc keypress to pause or continue the game
             if (isPaused) {
@@ -32,12 +30,6 @@ public class UIHandler : MonoBehaviour {
         Cig3.SetActive(gameManager.playerHealth >= 3);
     }
 
-    void UpdatePickVisibility() {//update the visibility of pick game objects based on the pick amounts
-        Pick1.SetActive(gameManager.PickAmount >= 1);
-        Pick2.SetActive(gameManager.PickAmount >= 2);
-        Pick3.SetActive(gameManager.PickAmount >= 3);
-        Pick4.SetActive(gameManager.PickAmount >= 4);
-    }
 
     public void Pause() {//pause the game
         PausePanel.SetActive(true);//set the pause panel to active

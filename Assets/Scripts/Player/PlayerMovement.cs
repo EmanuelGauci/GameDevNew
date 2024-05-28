@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour {
     public float baseMoveSpeed = 5f;
     public float jumpForce = 7f;
     public bool isGrounded, isOnLadder;
-    [System.NonSerialized] public float turnSpeed = 20f;
+    //[System.NonSerialized] public float turnSpeed = 20f;
+    [SerializeField] GameManager gameManager;
     public Rigidbody rb;
     [SerializeField] public float raycastDistance = 0.2f;
     public LayerMask groundLayer;
@@ -55,14 +56,14 @@ public class PlayerMovement : MonoBehaviour {
             if (!uihandler.isPaused) {
                 rendererFeatureToggle.activateFeature = true;
                 float mouseX = Input.GetAxis("Mouse X");
-                Vector3 rotation = new Vector3(0f, mouseX * turnSpeed, 0f);
+                Vector3 rotation = new Vector3(0f, mouseX * gameManager.turnSpeed, 0f);
                 Quaternion deltaRotation = Quaternion.Euler(rotation * Time.fixedDeltaTime);
                 rb.MoveRotation(rb.rotation * deltaRotation);
             }
         } else {
             TurnWithMouse();
             float mouseX = Input.GetAxis("Mouse X");
-            Vector3 rotation = new Vector3(0f, mouseX * turnSpeed, 0f);
+            Vector3 rotation = new Vector3(0f, mouseX * gameManager.turnSpeed, 0f);
             Quaternion deltaRotation = Quaternion.Euler(rotation * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
         }

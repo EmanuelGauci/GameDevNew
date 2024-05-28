@@ -8,64 +8,64 @@ public class MainMenuHandler : MonoBehaviour {
     [SerializeField] GameObject Cutscene1Controller, Cutscene2Controller, VideoPlayer;
     [SerializeField] Scene nextScene;
 
-
-    //variables for managing the current cutscene and audio
+    // Variables for managing the current cutscene and audio
     private VideoPlayerController videoController;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
     private int currentCutsceneIndex = 1;
 
-
+    [SerializeField] private AudioClip backgroundMusic; // Add a field for the background music
 
     private void Start() {
-        StartCutscene1();//start the initial cutscene when the main menu loads
+        StartCutscene1(); // Start the initial cutscene when the main menu loads
     }
 
-    void PlayAudioClip(AudioClip clip) {//method to play an audio clip if available
-        if (clip != null && audioSource != null) {//check if the audio clip and audio source are not null
-            audioSource.clip = clip;//set the audio clip to the audio source and play it
+    void PlayAudioClip(AudioClip clip) {
+        if (clip != null && audioSource != null) {
+            audioSource.clip = clip;
             audioSource.Play();
         }
     }
 
     void StartCutscene1() {
-        currentCutsceneIndex = 1;//set the current cutscene index to 1(used for the skip)
-        videoController = Cutscene1Controller.GetComponent<VideoPlayerController>();//get the video player controller component from the first cutscene controller
-        videoController.StartCutscene();//start the first cutscene
-        SkipCutsceneGameObject.SetActive(true);//activate the skip button gameobject
-        videoController.SetOnVideoFinishedAction(() => { Cutscene1Payload(); });//set the action to be performed when the first cutscene finishes
-  
+        currentCutsceneIndex = 1;
+        videoController = Cutscene1Controller.GetComponent<VideoPlayerController>();
+        videoController.StartCutscene();
+        SkipCutsceneGameObject.SetActive(true);
+        videoController.SetOnVideoFinishedAction(() => { Cutscene1Payload(); });
     }
 
-    void Cutscene1Payload() {//ran after the first cutscene finishes
-        Background.SetActive(true);//activate the background and title gameobjects
-        SkipCutsceneGameObject.SetActive(false);//deactivate the skip button gameobject
-        videoController.gameObject.SetActive(false); // Deactivate the Video Player component
+    void Cutscene1Payload() {
+        Background.SetActive(true);
+        SkipCutsceneGameObject.SetActive(false);
+        videoController.gameObject.SetActive(false);
+        // Play background music after the cutscene
+        PlayAudioClip(backgroundMusic);
     }
 
     public void StartGame() {
-        //StartCutscene2();
-        StartCoroutine(LoadSceneAsync("Level1"));//start loading the enxt scene asynchronously
+        StartCoroutine(LoadSceneAsync("Level1"));
     }
 
     public void StartCutscene2() {
         currentCutsceneIndex = 2;
         videoController = Cutscene2Controller.GetComponent<VideoPlayerController>();
-        
         videoController.StartCutscene();
         SkipCutsceneGameObject.SetActive(true);
         videoController.SetOnVideoFinishedAction(() => { Cutscene2Payload(); });
     }
 
     void Cutscene2Payload() {
-        ShowLoadingScreen();//show the loading screen
-        SkipCutsceneGameObject.SetActive(false);//deactivate the skip button gameobject
-        StartCoroutine(LoadSceneAsync("Level1"));//start loading the enxt scene asynchronously
-        videoController.gameObject.SetActive(false); // Deactivate the Video Player component
+        ShowLoadingScreen();
+        SkipCutsceneGameObject.SetActive(false);
+        StartCoroutine(LoadSceneAsync("Level1"));
+        videoController.gameObject.SetActive(false);
+        // Play background music after the cutscene
+        PlayAudioClip(backgroundMusic);
     }
 
-    IEnumerator LoadSceneAsync(string sceneName) {//coroutine to load the scene asynchronously
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);//start loading the scene asynchronously
-        while (!operation.isDone) {//wait until the operation is done
+    IEnumerator LoadSceneAsync(string sceneName) {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone) {
             ShowLoadingScreen();
             yield return null;
         }
@@ -92,13 +92,13 @@ public class MainMenuHandler : MonoBehaviour {
     }
 
     public void SkipCutscene() {
-        VideoPlayer.SetActive(false);//deactivate the videoplayer gameobject
-        SkipCutsceneGameObject.SetActive(false);//deactivate the skip button game object
-        
-        if(currentCutsceneIndex == 1) {//check the current cutscene index
-            Cutscene1Payload();// perform payload for the first cutscene
-        }else if(currentCutsceneIndex == 2) {
-            Cutscene2Payload();//perform payload for the second cutscene
+        VideoPlayer.SetActive(false);
+        SkipCutsceneGameObject.SetActive(false);
+
+        if (currentCutsceneIndex == 1) {
+            Cutscene1Payload();
+        } else if (currentCutsceneIndex == 2) {
+            Cutscene2Payload();
         }
     }
 }

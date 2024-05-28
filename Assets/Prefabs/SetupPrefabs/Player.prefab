@@ -187,6 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8637986912282554995}
   - component: {fileID: 7762392167379209393}
+  - component: {fileID: 8736635789686530878}
   - component: {fileID: 9042314762098267716}
   - component: {fileID: 8263775624319901207}
   - component: {fileID: 320822768509009191}
@@ -246,6 +247,26 @@ MonoBehaviour:
   uihandler: {fileID: 0}
   selectwithmouse: 0
   turnwithmouse: 0
+--- !u!114 &8736635789686530878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854916803148358625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8d9ab43595c8a479c8ca385c1b8d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Collectables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PicturePieces:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!54 &9042314762098267716
 Rigidbody:
   m_ObjectHideFlags: 0

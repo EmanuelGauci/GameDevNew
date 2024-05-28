@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class RendererFeatureToggle : MonoBehaviour {
     public ScriptableRendererFeature rendererFeature;
+    public List<GameObject> SpriteHighlights = new List<GameObject>(); // Use List instead of array
 
     public bool activateFeature = true;
     private GameObject[] glowObjects;
@@ -55,12 +56,22 @@ public class RendererFeatureToggle : MonoBehaviour {
                     }
                 }
             }
+            foreach (GameObject obj in SpriteHighlights) {
+                if (obj != null) {
+                    obj.SetActive(true);
+                }
+            }
         } else if (!activateFeature) {
             // Restore the original materials when activateFeature is false
             foreach (KeyValuePair<GameObject, Material[]> pair in originalMaterials) {
                 Renderer renderer = pair.Key.GetComponent<Renderer>();
                 if (renderer != null) {
                     renderer.materials = pair.Value;
+                }
+            }
+            foreach (GameObject obj in SpriteHighlights) {
+                if (obj != null) {
+                    obj.SetActive(false);
                 }
             }
         }

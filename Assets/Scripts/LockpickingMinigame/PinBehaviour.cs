@@ -11,7 +11,7 @@ public class PinBehaviour : MonoBehaviour {
     [SerializeField] private GameObject lockpicking;
     private List<bool> isPinnedList = new List<bool>();
     private List<bool> successfullyPickedList = new List<bool>();
-    private List<int> unsuccessfulPickingsList = new List<int>();
+    
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject payloadObject;
     [SerializeField] private EnablePicking enablePicking;
@@ -25,7 +25,6 @@ public class PinBehaviour : MonoBehaviour {
         for (int i = 0; i < PinEndColliders.Count; i++) {
             isPinnedList.Add(false);
             successfullyPickedList.Add(false);
-            unsuccessfulPickingsList.Add(0);
         }
     }
 
@@ -97,11 +96,6 @@ public class PinBehaviour : MonoBehaviour {
         if (CheckIfPicked(index)) {
             successfullyPickedList[index] = true;
             PlayPinCorrectSlotSound(); // Play the sound when the pin is successfully picked
-        } else {
-            unsuccessfulPickingsList[index]++;
-            if (unsuccessfulPickingsList[index] % 5 == 0) {
-                gameManager.PickAmount--;
-            }
         }
         PinEndColliders[index].transform.parent = null;
         pickBehaviour.ResetPickPosition();
