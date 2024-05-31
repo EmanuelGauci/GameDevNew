@@ -2,16 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class PinBehaviour : MonoBehaviour {
+    [SerializeField] private List<GameObject> PickIndicator;
+    [SerializeField] private List<GameObject> PinEndColliders;
     [SerializeField] private GameObject PuzzleParent;
     [SerializeField] private GameObject Pick;
-    [SerializeField] private List<GameObject> PinEndColliders;
     [SerializeField] private List<GameObject> CloseToPointColliders;
     [SerializeField] private List<GameObject> PickPointColliders;
     [SerializeField] private PickBehaviour pickBehaviour;
     [SerializeField] private GameObject lockpicking;
     private List<bool> isPinnedList = new List<bool>();
     private List<bool> successfullyPickedList = new List<bool>();
-    
+
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject payloadObject;
     [SerializeField] private EnablePicking enablePicking;
@@ -57,7 +58,6 @@ public class PinBehaviour : MonoBehaviour {
         }
     }
 
-
     private void AccessPayload() {
         if (payloadObject != null) {
             MonoBehaviour[] scripts = payloadObject.GetComponents<MonoBehaviour>();
@@ -95,11 +95,18 @@ public class PinBehaviour : MonoBehaviour {
     private void UnparentPin(int index) {
         if (CheckIfPicked(index)) {
             successfullyPickedList[index] = true;
+            EnablePickIndicator(index); // Enable the pick indicator
             PlayPinCorrectSlotSound(); // Play the sound when the pin is successfully picked
         }
         PinEndColliders[index].transform.parent = null;
         pickBehaviour.ResetPickPosition();
         isPinnedList[index] = false;
+    }
+
+    private void EnablePickIndicator(int index) {
+        if (index < PickIndicator.Count && PickIndicator[index] != null) {
+            PickIndicator[index].SetActive(true);
+        }
     }
 
     private void CheckIfCloseToPick(int index) {
