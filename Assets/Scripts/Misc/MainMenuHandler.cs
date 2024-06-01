@@ -8,6 +8,11 @@ public class MainMenuHandler : MonoBehaviour {
     [SerializeField] GameObject Cutscene1Controller, Cutscene2Controller, VideoPlayer;
     [SerializeField] Scene nextScene;
 
+    [SerializeField] GameObject CreditsImage;
+    [SerializeField] float scrollSpeed = 10f; // Adjust the scroll speed as needed
+
+    private bool isCreditsOpen = false;
+
     // Variables for managing the current cutscene and audio
     private VideoPlayerController videoController;
     [SerializeField] private AudioSource audioSource;
@@ -85,6 +90,12 @@ public class MainMenuHandler : MonoBehaviour {
 
     public void OpenCredits() {
         Credits.SetActive(true);
+        isCreditsOpen = true;
+    }
+
+    public void CloseCredits() {
+        Credits.SetActive(false );
+        isCreditsOpen = false;
     }
 
     public void GameExit() {
@@ -99,6 +110,19 @@ public class MainMenuHandler : MonoBehaviour {
             Cutscene1Payload();
         } else if (currentCutsceneIndex == 2) {
             Cutscene2Payload();
+        }
+    }
+
+    private void Update() {
+        if (isCreditsOpen) {
+            // Scroll the CreditsImage along the Y axis using the mouse wheel
+            float scrollAmount = Input.GetAxis("Mouse ScrollWheel") * -1;
+            CreditsImage.transform.Translate(Vector3.up * scrollAmount * scrollSpeed);
+
+            // Constrain the position within the specified range
+            Vector3 currentPosition = CreditsImage.transform.localPosition;
+            currentPosition.y = Mathf.Clamp(currentPosition.y, -873f, 1832f);
+            CreditsImage.transform.localPosition = currentPosition;
         }
     }
 }
