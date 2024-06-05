@@ -36,7 +36,7 @@ public class FlyThroughTest : MonoBehaviour {
 
     IEnumerator ActivateFlyThrough() {
         isCutsceneActive = true;
-        playerRigidbody.constraints = RigidbodyConstraints.FreezePosition;
+        playerRigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         playerMovement.isParalyzed = true;
 
         dollyCart.m_Speed = 10f;
@@ -45,7 +45,6 @@ public class FlyThroughTest : MonoBehaviour {
         virtualCamera.Priority = 0;
 
         isCutsceneActive = false;
-        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePosition;
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         playerMovement.isParalyzed = false;
     }
